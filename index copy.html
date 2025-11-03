@@ -18,24 +18,7 @@
          width: 100%;
         }
 
-        .addRecordBtn {                                     
-        position: absolute;
-        z-index: 10;
-        bottom: 30px;
-        right: 10px;
-        background-color: #70ae6e;
-        color: white;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
-        text-decoration: none;
-        }
 
-        .addRecordBtn:hover {
-        background-color: #384d48;
-        }
     </style>
 
     <!--importing css and libraries for esri.js-->
@@ -44,14 +27,11 @@
 
     <!--loads modules-->
     <script>
-        
-        // function safetyAlertFunction(){
-            // alert("Keep Wildlife Wild! \nMaintain a safe distance from wildlife when recording your encounter. Learn more at: \nhttps://www.michigan.gov/dnr/managing-resources/wildlife/keep-wild"); 
-        // }
+
 
         require([ "esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Search", "esri/widgets/Locate", "esri/layers/FeatureLayer", "esri/widgets/Legend", "esri/widgets/Expand" ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend, Expand) => {
 
-            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCek5wBVwF7SEueg9kN6l8kkJXzv1l1OMA060-IPeO302BssrSrxYedw9j4tTgXYeam0aL0P3vclOI4HjPaMmO3pQweizFCRuDTWSVP42Vualv70iB8JLH7wMbh4v9QoxW_wZvHni7MCbxYsBO_7lPlXYTEHvezn4AyvYiYeVWFfx-TxXUAoY19Z4ueRRW_UTsAT1_DalpM85W";
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskC9xXgmDwIhEj6p4JFGIVhmXgltLfrueyXXwYRWUH3mAzH4KJkS4sKmpHNGXKiJ3I4AHu4bW4JTa98ACasmKzH8Ig8kCbM5b1jRVE82n7JrY29BOQCNqwdMJo7GkcbDTy55e84ogBT_0n26aklgMna3LZzrszbZHpmOADQo8OSqhedn4P0-EkTCp9DksAUVoFAAT1_DalpM85W";
           
             const map = new Map({
                 basemap: "satellite" //basemap satellite 
@@ -111,34 +91,31 @@
     
 
             //creates legend and updates legend descriptions for layers
-            let legend = new Legend ({
-                view:view,
-                layerInfos: [
-                    {
-                        layer:parkLayer,
-                        title: "Hartwick State Park Boundary"
-                    }
-                    ]
-            }); 
+            // let legend = new Legend ({
+            //     view:view,
+            //     layerInfos: [
+            //         {
+            //             layer:parkLayer,
+            //             title: "Hartwick State Park Boundary"
+            //         }
+            //         ]
+            // }); 
 
-            //created expand for legend
-            const legendExpand = new Expand({
-                view: view,
-                content: legend
-            });
+            // //created expand for legend
+            // const legendExpand = new Expand({
+            //     view: view,
+            //     content: legend
+            // });
 
-            //adds legend to map
-            view.ui.add (legendExpand, "bottom-left");
+            // //adds legend to map
+            // view.ui.add (legendExpand, "bottom-left");
 
 
         });
      </script>
 
   </head>
-  <body onload ="safetyAlertFunction()"><!--loads safety alert when opening the app-->
-
-    <!--adds report distressed wildlife button to app-->
-    <!-- <a href="https://arcg.is/1yWjGD"target="_blank" class="addRecordBtn">Report Distressed Wildlife</a> -->
+  <body>
 
     <div id="viewDiv"></div>
 
