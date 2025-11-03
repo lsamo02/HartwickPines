@@ -23,7 +23,12 @@
 
     <!--importing css and libraries for esri.js-->
     <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css" />
-    <script src="https://js.arcgis.com/4.30/"></script>
+    <script src="https://js.arcgis.com/4.34/"></script>
+
+    <script type="module">
+      const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer.js");
+
+    </script>
 
     <!--loads modules-->
     <script>
@@ -31,7 +36,7 @@
 
         require([ "esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Search", "esri/widgets/Locate", "esri/layers/FeatureLayer", "esri/widgets/Legend", "esri/widgets/Expand" ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend, Expand) => {
 
-            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskC9xXgmDwIhEj6p4JFGIVhmXgltLfrueyXXwYRWUH3mAzH4KJkS4sKmpHNGXKiJ3I4AHu4bW4JTa98ACasmKzH8Ig8kCbM5b1jRVE82n7JrY29BOQCNqwdMJo7GkcbDTy55e84ogBT_0n26aklgMna3LZzrszbZHpmOADQo8OSqhedn4P0-EkTCp9DksAUVoFAAT1_DalpM85W";
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCyEL4-I61G-ILPPcRpHjFM6KWtlVS-EKe0Ynb6k-PmkyX0pyTrXNjg1CKveNWJlJL4mjbz-pE6zNj-JmFZpxlghC524B73RvEDSxkmvRbRmxVL2FH3mjJlAJ9D176yJWY3cmt16JedbBqPq7Msr_vJj_Nk8-RnCr_w9f2oeJ0_gvmvJ0HpRU21ZeeJUdknoj_AT1_leRAI5yG";
           
             const map = new Map({
                 basemap: "satellite" //basemap satellite 
@@ -76,15 +81,29 @@
                 
             });
 
+            //renderer for Park Boundary
+            const parkRenderer = {
+                type: "simple",  // autocasts as new SimpleRenderer()
+                symbol: {
+                    type: "simple-fill",  // autocasts as new SimpleMarkerSymbol()
+                    color: "purple",
+                    outline: {  
+                    width: 0.5,
+                    color: "white"
+                    }
+                }
+            };
+
         
             // Create park bounary layer from feature service 
             const parkLayer = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HartwickPinesBoundary/FeatureServer", //URL to Hartwick Pines State Park layer
+                renderer: parkRenderer,
                
             });
             
             //adds park layer to map
-            viewElement.map.add(parkLayer, 0);
+            map.add(parkLayer, 0);
             
     
 
