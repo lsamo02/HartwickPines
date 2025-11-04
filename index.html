@@ -36,7 +36,7 @@
 
         require([ "esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Search", "esri/widgets/Locate", "esri/layers/FeatureLayer", "esri/widgets/Legend", "esri/widgets/Expand" ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend, Expand) => {
 
-            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCyEL4-I61G-ILPPcRpHjFM6KWtlVS-EKe0Ynb6k-PmkyX0pyTrXNjg1CKveNWJlJL4mjbz-pE6zNj-JmFZpxlghC524B73RvEDSxkmvRbRmxVL2FH3mjJlAJ9D176yJWY3cmt16JedbBqPq7Msr_vJj_Nk8-RnCr_w9f2oeJ0_gvmvJ0HpRU21ZeeJUdknoj_AT1_leRAI5yG";
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCtSMLy6RPqSw4kVdzsBThhN8nICK_1mCJwa8lucTs48AdUfCJtFo68KbSaDBUiDMf-LWzMaK2YYnfUifnJZ75EIyK_JiaH-D3QuQdxjQ4xqpGYCoVbCxDgbhiI9vdUgebxmlgBeq85B5nVr07VkiU-KOKlKWT-3hcQSjuO0L3T94rpV3jgK2cx5Qryr-Q9xCEAT1_leRAI5yG";
           
             const map = new Map({
                 basemap: "satellite" //basemap satellite 
@@ -80,6 +80,27 @@
                 index:0
                 
             });
+
+                        // Define a unique value renderer and symbols
+            const trailsRenderer = {
+                type: "simple",
+                symbol: {
+                color: "#BA55D3",
+                type: "simple-line",
+                style: "solid",
+                },
+
+            
+            };
+
+            // Create the layer and set the renderer
+            const trails = new FeatureLayer({
+                url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_trails/FeatureServer",
+                renderer: trailsRenderer,
+                opacity: 0.75,
+            });
+
+            map.add(trails, 0);
 
             //renderer for Park Boundary
             const parkRenderer = {
