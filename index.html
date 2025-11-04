@@ -83,13 +83,24 @@
 
                         // Define a unique value renderer and symbols
             const trailsRenderer = {
-                type: "simple",
-                symbol: {
-                color: "#BA55D3",
-                type: "simple-line",
-                style: "solid",
+                type: "unique-value",
+                field: "ADA",
+                uniqueValueInfos: [{
+                    value: "1",
+                    symbol: {
+                    color: "#BA55D3",
+                    type: "simple-line",
+                    style: "solid",
+                    },
                 },
-
+                {
+                    value: "4",
+                    symbol: {
+                    color: "#FFA500",
+                    type: "simple-line",
+                    style: "solid",
+                    },
+                }]
             
             };
 
