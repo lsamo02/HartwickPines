@@ -81,7 +81,7 @@
                 
             });
 
-                  // Define a simple renderer and symbol
+            // Define a simple renderer and symbol
             const trailheadsRenderer = {
                 type: "simple",
                 symbol: {
@@ -122,8 +122,27 @@
 
             map.add(trailheads, 1);
 
+            // Define a simple renderer and symbol
+            // const activitiesRenderer = {
+            //     type: "simple",
+            //     symbol: {
+            //     type: "picture-marker",
+            //     url: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+            //     width: "18px",
+            //     height: "18px",
+            //     },
+            // };
 
-                        // Define a unique value renderer and symbols
+            // Create the layer and set the renderer
+            const activities = new FeatureLayer({
+                url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Amenities_Activities/FeatureServer",
+                // renderer: activitiesRenderer,
+            });
+
+            map.add(activities, 1);
+
+
+            // Define a unique value renderer and symbols
             const trailsRenderer = {
                 type: "unique-value",
                 field: "Accessible",
