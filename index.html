@@ -120,7 +120,7 @@
                 labelingInfo: [trailheadsLabels],
             });
 
-            map.add(trailheads);
+            map.add(trailheads, 1);
 
 
                         // Define a unique value renderer and symbols
@@ -171,7 +171,31 @@
                 renderer: roadsRenderer,
             });
 
-            viewElement.map.add(roads, 1);
+            map.add(roads, 0);
+
+            //renderer for Park Buildings
+            const buildingRenderer = {
+                type: "simple",  // autocasts as new SimpleRenderer()
+                symbol: {
+                    type: "simple-fill",  // autocasts as new SimpleMarkerSymbol()
+                    color: "purple",
+                    outline: {  
+                    width: 3,
+                    color: "black"
+                    }
+                }
+            };
+
+        
+            // Create park bounary layer from feature service 
+            const buildings = new FeatureLayer({ 
+                url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Buildings/FeatureServer", 
+                renderer: buildingRenderer,
+               
+            });
+            
+            //adds park layer to map
+            map.add(buildings, 0);
 
             //renderer for Park Boundary
             const parkRenderer = {
