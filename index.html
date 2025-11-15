@@ -46,7 +46,7 @@
                 container: "viewDiv", // Reference to the DOM node that will contain the view
                     map: map, // References the map object
                     center: [-84.67554701694672, 44.749945182717525], // Longitude, latitude for Hartwick Pines
-                    zoom: 13, // Zoom level
+                    zoom: 14, // Zoom level
                     container: "viewDiv" // Div element
             });
 
@@ -81,12 +81,54 @@
                 
             });
 
+                  // Define a simple renderer and symbol
+            const trailheadsRenderer = {
+                type: "simple",
+                symbol: {
+                type: "picture-marker",
+                url: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+                width: "18px",
+                height: "18px",
+                },
+            };
+
+            // Define a label for the trailheads
+            const trailheadsLabels = {
+                symbol: {
+                type: "text",
+                color: "#FFFFFF",
+                haloColor: "#5E8D74",
+                haloSize: "2px",
+                font: {
+                    size: "12px",
+                    family: "Noto Sans",
+                    style: "italic",
+                    weight: "normal",
+                },
+                },
+
+                labelPlacement: "above-center",
+                labelExpressionInfo: {
+                expression: "$feature.label",
+                },
+            };
+
+            // Create the layer and set the renderer
+            const trailheads = new FeatureLayer({
+                url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_TrailsInfo/FeatureServer",
+                renderer: trailheadsRenderer,
+                labelingInfo: [trailheadsLabels],
+            });
+
+            map.add(trailheads);
+
+
                         // Define a unique value renderer and symbols
             const trailsRenderer = {
                 type: "unique-value",
-                field: "ADA",
+                field: "Accessible",
                 uniqueValueInfos: [{
-                    value: "1",
+                    value: "Yes",
                     symbol: {
                     color: "#BA55D3",
                     type: "simple-line",
@@ -94,7 +136,7 @@
                     },
                 },
                 {
-                    value: "4",
+                    value: "No",
                     symbol: {
                     color: "#FFA500",
                     type: "simple-line",
