@@ -19,7 +19,7 @@
         <script type="module" src="https://js.arcgis.com/4.34/map-components/"></script>
 
         <!--styling the page-->
-        <!-- <style>
+        <style>
             html,
             body,
             #viewDiv {
@@ -28,7 +28,7 @@
             height: 100%;
             width: 100%;
             }
-        </style> -->
+        </style>
 
     </head>
 
@@ -37,10 +37,11 @@
         <arcgis-map basemap= "satellite" center = "-84.67554701694672, 44.749945182717525" zoom= "14">
             <arcgis-expand
                 slot="top-left"
-                expanded
                 mode="floating"
             >
-                <arcgis-search></arcgis-search>
+                <arcgis-search
+                all-placeholder= "Search for Accessible Park Features"
+                include-default-sources-disabled></arcgis-search>
             </arcgis-expand>
             <arcgis-zoom slot="top-left"></arcgis-zoom>
             <arcgis-locate slot= "top-left"></arcgis-locate>
@@ -48,8 +49,16 @@
                 slot="bottom-left" 
                 mode="floating"
             >
-                <arcgis-legend></arcgis-legend></arcgis-legend>
-            
+                <arcgis-legend></arcgis-legend>
+            </arcgis-expand>
+            <arcgis-expand
+                slot="bottom-right" 
+                
+                mode="floating"
+            >
+                <arcgis-editor>Add an Accessibility Note</arcgis-editor>
+            </arcgis-expand>
+
         </arcgis-map>
 
         <script type="module">
@@ -57,6 +66,13 @@
 
             const viewElement = document.querySelector("arcgis-map");
             await viewElement.viewOnReady();
+
+            const accessibilityNote = new FeatureLayer({
+                url:"https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Accessibility_Note/FeatureServer",
+
+            })
+
+            viewElement.map.add(accessibilityNote); 
 
             // Define a simple renderer and symbol
             const trailheadsRenderer = {
@@ -95,6 +111,11 @@
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_TrailsInfo/FeatureServer",
                 renderer: trailheadsRenderer,
                 labelingInfo: [trailheadsLabels],
+                popupTemplate:{
+                    title:"{Label}",  
+                    content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b> {Trail_Length_mi} miles", 
+                    overwriteActions: true
+                }
             });
 
             viewElement.map.add(trailheads, 1);
@@ -114,6 +135,11 @@
             const activities = new FeatureLayer({
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Amenities_Activities/FeatureServer",
                 // renderer: activitiesRenderer,
+                popupTemplate:{
+                    title:"{Label}",  
+                    content: "<b>Accessible:</b> {Accessible}", 
+                    overwriteActions: true, 
+                }
             });
 
             viewElement.map.add(activities, 1);
@@ -149,6 +175,12 @@
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_trails/FeatureServer",
                 renderer: trailsRenderer,
                 opacity: 0.75,
+                popupTemplate:{
+                    title:"{Label}",  
+                    content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b>{Miles} miles"+"<br><b>Bikeable:</b> {Bike_Use}"+"<br><b>Cross Country Skiing Allowed:</b> {XCountrySki_Use}"
+                    +"<br><b>Snow Shoe Allowed:</b> {SnowShoe_Use}"+"<br><b>Paved:</b> {Paved}", 
+                    overwriteActions: true
+                }
             });
 
             viewElement.map.add(trails, 0);
@@ -176,10 +208,10 @@
                 type: "simple",  // autocasts as new SimpleRenderer()
                 symbol: {
                     type: "simple-fill",  // autocasts as new SimpleMarkerSymbol()
-                    color: "purple",
+                    color: "#f3ebe1",
                     outline: {  
-                    width: 3,
-                    color: "black"
+                    width: 1,
+                    color: "#523c21"
                     }
                 }
             };
@@ -189,6 +221,11 @@
             const buildings = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Buildings/FeatureServer", 
                 renderer: buildingRenderer,
+                popupTemplate:{
+                    title:"{Label}",  
+                    content: "<b>Accessible:</b> {Accessible}",
+                    overwriteActions: true
+                }
                
             });
             
@@ -218,27 +255,32 @@
             
             //adds park layer to map
             viewElement.map.add(parkLayer, 0);
+
+            // creates search constant 
+            const search= document.querySelector("arcgis-search"); 
+            await search.componentOnReady();
+
+            search.sources= [
+                {
+                    layer: buildings, 
+                    searchFields: ["Label"], 
+                    displayField: "Accessible",
+                    exactMatch: false, 
+                    outFields: ["Label", "Accessible"], 
+                    name: "Park Buildings", 
+                    placeholder: "example: Visitor Center",
+                }, 
+                {
+                    layer: buildings, 
+                    searchFields: ["Label"], 
+                    displayField: "Accessible",
+                    exactMatch: false, 
+                    outFields: ["Label", "Accessible"], 
+                    name: "Park Buildings", 
+                    placeholder: "example: Visitor Center",
+                }
+            ];
             
-
-            //creates legend and updates legend descriptions for layers
-            // let legend = new Legend ({
-            //     view:view,
-            //     layerInfos: [
-            //         {
-            //             layer:parkLayer,
-            //             title: "Hartwick State Park Boundary"
-            //         }
-            //         ]
-            // }); 
-
-            // //created expand for legend
-            // const legendExpand = new Expand({
-            //     view: view,
-            //     content: legend
-            // });
-
-            // //adds legend to map
-            // view.ui.add (legendExpand, "bottom-left");
 
         </script>
        
