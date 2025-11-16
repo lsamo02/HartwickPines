@@ -1,85 +1,62 @@
-<!DOCTYPE html>
- <html>
-  <head>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <title>Hartwick Pines State Park</title>
 
-    <title>Hartwick Pines State Park</title>
+        <script>
+        var esriConfig = {
+            apiKey: "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCtSMLy6RPqSw4kVdzsBThhN8nICK_1mCJwa8lucTs48AdUfCJtFo68KbSaDBUiDMf-LWzMaK2YYnfUifnJZ75EIyK_JiaH-D3QuQdxjQ4xqpGYCoVbCxDgbhiI9vdUgebxmlgBeq85B5nVr07VkiU-KOKlKWT-3hcQSjuO0L3T94rpV3jgK2cx5Qryr-Q9xCEAT1_leRAI5yG",
+        };
+        </script>
 
-    <!--styling the page-->
-    <style>
-        html,
-        body,
-        #viewDiv {
-         padding: 0;
-         margin: 0;
-         height: 100%;
-         width: 100%;
-        }
+        <script type="module" src="https://js.arcgis.com/calcite-components/3.3.3/calcite.esm.js"></script>
 
+        <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css" />
+        <script src="https://js.arcgis.com/4.34/"></script>
 
-    </style>
+        <script type="module" src="https://js.arcgis.com/4.34/map-components/"></script>
 
-    <!--importing css and libraries for esri.js-->
-    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css" />
-    <script src="https://js.arcgis.com/4.34/"></script>
+        <!--styling the page-->
+        <!-- <style>
+            html,
+            body,
+            #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            }
+        </style> -->
 
-    <script type="module">
-      const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer.js");
+    </head>
 
-    </script>
+    <body>
 
-    <!--loads modules-->
-    <script>
+        <arcgis-map basemap= "satellite" center = "-84.67554701694672, 44.749945182717525" zoom= "14">
+            <arcgis-expand
+                slot="top-left"
+                expanded
+                mode="floating"
+            >
+                <arcgis-search></arcgis-search>
+            </arcgis-expand>
+            <arcgis-zoom slot="top-left"></arcgis-zoom>
+            <arcgis-locate slot= "top-left"></arcgis-locate>
+            <arcgis-expand
+                slot="bottom-left" 
+                mode="floating"
+            >
+                <arcgis-legend></arcgis-legend></arcgis-legend>
+            
+        </arcgis-map>
 
+        <script type="module">
+            const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer.js");
 
-        require([ "esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Search", "esri/widgets/Locate", "esri/layers/FeatureLayer", "esri/widgets/Legend", "esri/widgets/Expand" ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend, Expand) => {
-
-            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCtSMLy6RPqSw4kVdzsBThhN8nICK_1mCJwa8lucTs48AdUfCJtFo68KbSaDBUiDMf-LWzMaK2YYnfUifnJZ75EIyK_JiaH-D3QuQdxjQ4xqpGYCoVbCxDgbhiI9vdUgebxmlgBeq85B5nVr07VkiU-KOKlKWT-3hcQSjuO0L3T94rpV3jgK2cx5Qryr-Q9xCEAT1_leRAI5yG";
-          
-            const map = new Map({
-                basemap: "satellite" //basemap satellite 
-            });
-
-            const view = new MapView({
-                container: "viewDiv", // Reference to the DOM node that will contain the view
-                    map: map, // References the map object
-                    center: [-84.67554701694672, 44.749945182717525], // Longitude, latitude for Hartwick Pines
-                    zoom: 14, // Zoom level
-                    container: "viewDiv" // Div element
-            });
-
-            //creating search widget
-            const searchWidget = new Search({
-                view: view,
-                
-            });
-
-            //adds search widget
-            view.ui.add(searchWidget, {
-                position: "top-left", 
-                index: 1
-            });
-
-            //created locate button
-            const locateBtn = new Locate({
-                view: view, 
-                container: document.createElement ("div")
-            });
-
-            //created expand for locate button
-            const locateExpand = new Expand({
-                view:view,
-                content: locateBtn
-            })
-
-            // Add the locate Expand widget 
-            view.ui.add(locateExpand, { 
-                position: "top-left",
-                index:0
-                
-            });
+            const viewElement = document.querySelector("arcgis-map");
+            await viewElement.viewOnReady();
 
             // Define a simple renderer and symbol
             const trailheadsRenderer = {
@@ -120,7 +97,7 @@
                 labelingInfo: [trailheadsLabels],
             });
 
-            map.add(trailheads, 1);
+            viewElement.map.add(trailheads, 1);
 
             // Define a simple renderer and symbol
             // const activitiesRenderer = {
@@ -139,7 +116,7 @@
                 // renderer: activitiesRenderer,
             });
 
-            map.add(activities, 1);
+            viewElement.map.add(activities, 1);
 
 
             // Define a unique value renderer and symbols
@@ -174,7 +151,7 @@
                 opacity: 0.75,
             });
 
-            map.add(trails, 0);
+            viewElement.map.add(trails, 0);
 
             // Add roads
             const roadsRenderer = {
@@ -192,7 +169,7 @@
                 renderer: roadsRenderer,
             });
 
-            map.add(roads, 0);
+            viewElement.map.add(roads, 0);
 
             //renderer for Park Buildings
             const buildingRenderer = {
@@ -216,7 +193,7 @@
             });
             
             //adds park layer to map
-            map.add(buildings, 0);
+            viewElement.map.add(buildings, 0);
 
             //renderer for Park Boundary
             const parkRenderer = {
@@ -240,9 +217,8 @@
             });
             
             //adds park layer to map
-            map.add(parkLayer, 0);
+            viewElement.map.add(parkLayer, 0);
             
-    
 
             //creates legend and updates legend descriptions for layers
             // let legend = new Legend ({
@@ -264,14 +240,7 @@
             // //adds legend to map
             // view.ui.add (legendExpand, "bottom-left");
 
-
-        });
-     </script>
-
-  </head>
-  <body>
-
-    <div id="viewDiv"></div>
-
-  </body>
+        </script>
+       
+    </body>
 </html>
