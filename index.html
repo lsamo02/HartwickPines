@@ -74,6 +74,12 @@
 
             const accessibilityNote = new FeatureLayer({
                 url:"https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Accessibility_Note/FeatureServer",
+                popupTemplate:{
+                    title:"Accessibility Note",  
+                    content: "<b>Date Added:</b> {Date}"+ "<br><b>Note:</b> {Note}", 
+                    overwriteActions: true
+                }
+
 
             })
 
@@ -182,7 +188,7 @@
                 opacity: 0.75,
                 popupTemplate:{
                     title:"{Label}",  
-                    content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b>{Miles} miles"+"<br><b>Bikeable:</b> {Bike_Use}"+"<br><b>Cross Country Skiing Allowed:</b> {XCountrySki_Use}"
+                    content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b>{Miles} miles"+"<br><b>Bikes Allowed:</b> {Bike_Use}"+"<br><b>Cross Country Ski Allowed:</b> {XCountrySki_Use}"
                     +"<br><b>Snow Shoe Allowed:</b> {SnowShoe_Use}"+"<br><b>Paved:</b> {Paved}", 
                     overwriteActions: true
                 }
