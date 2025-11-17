@@ -40,7 +40,7 @@
                 mode="floating"
             >
                 <arcgis-search
-                all-placeholder= "Search for Accessible Park Features"
+                all-placeholder= "Accessible Features"
                 include-default-sources-disabled></arcgis-search>
             </arcgis-expand>
             <arcgis-zoom slot="top-left"></arcgis-zoom>
@@ -53,10 +53,15 @@
             </arcgis-expand>
             <arcgis-expand
                 slot="bottom-right" 
-                
                 mode="floating"
             >
-                <arcgis-editor>Add an Accessibility Note</arcgis-editor>
+                <arcgis-editor></arcgis-editor>
+            </arcgis-expand>
+            <arcgis-expand
+                slot= "top-right"
+                mode= "floating"
+            >
+                <arcgis-layer-list></arcgis-layer-list>
             </arcgis-expand>
 
         </arcgis-map>
@@ -271,14 +276,24 @@
                     placeholder: "example: Visitor Center",
                 }, 
                 {
-                    layer: buildings, 
+                    layer: trails, 
                     searchFields: ["Label"], 
                     displayField: "Accessible",
                     exactMatch: false, 
                     outFields: ["Label", "Accessible"], 
-                    name: "Park Buildings", 
-                    placeholder: "example: Visitor Center",
+                    name: "Trails", 
+                    placeholder: "example: Weary Leg Trail",
+                },
+                {
+                    layer:activities, 
+                    searchFields: ["Label"], 
+                    displayField: "Accessible",
+                    exactMatch: false, 
+                    outFields: ["Label", "Accessible"], 
+                    name: "Amenities", 
+                    placeholder: "example: Campground",
                 }
+
             ];
             
 
