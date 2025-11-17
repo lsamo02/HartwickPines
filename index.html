@@ -13,6 +13,7 @@
 
         <script type="module" src="https://js.arcgis.com/calcite-components/3.3.3/calcite.esm.js"></script>
 
+
         <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css" />
         <script src="https://js.arcgis.com/4.34/"></script>
 
@@ -68,6 +69,8 @@
 
         <script type="module">
             const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer.js");
+            
+            const PictureMarkerSymbol = await $arcgis.import("@arcgis/core/symbols/PictureMarkerSymbol.js");
 
             const viewElement = document.querySelector("arcgis-map");
             await viewElement.viewOnReady();
@@ -131,21 +134,75 @@
 
             viewElement.map.add(trailheads, 1);
 
-            // Define a simple renderer and symbol
-            // const activitiesRenderer = {
-            //     type: "simple",
-            //     symbol: {
-            //     type: "picture-marker",
-            //     url: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-            //     width: "18px",
-            //     height: "18px",
-            //     },
-            // };
+
+            // Define a unique value renderer and symbols
+            const activitiesRenderer = {
+                type: "unique-value",
+                field: "Label",
+                
+                uniqueValueInfos: [{
+                    value: "Campground",
+                    symbol: {
+                    type: "picture-marker",
+                    url: "https://cdn.arcgis.com/sharing/rest/content/items/36359a4a8f3143b6bf44d5688e007900/resources/styles/thumbnails/Campground.png",
+                    width: "50px",
+                    height: "50px"
+                    },
+                },
+                {
+                    value: "Access Site and Fishing Pier",
+                    symbol: {
+                    type: "picture-marker",
+                    url: "https://cdn.arcgis.com/sharing/rest/content/items/36359a4a8f3143b6bf44d5688e007900/resources/styles/thumbnails/Fishing%20Pier.png",
+                    width: "50px",
+                    height: "50px"
+                    },
+                }, 
+                {
+                    value: "Rustic Cabin",
+                    symbol: {
+                    type: "picture-marker",
+                    url: "https://cdn.arcgis.com/sharing/rest/content/items/36359a4a8f3143b6bf44d5688e007900/resources/styles/thumbnails/Cabin.png",
+                    width: "50px",
+                    height: "50px"
+                    },
+                }, 
+                {
+                    value: " Group Campground",
+                    symbol: {
+                    type: "picture-marker",
+                    url: "https://cdn.arcgis.com/sharing/rest/content/items/36359a4a8f3143b6bf44d5688e007900/resources/styles/thumbnails/Campground.png",
+                    width: "50px",
+                    height: "50px"
+                    },
+                },
+                {
+                    value: "Picnic Shelter",
+                    symbol: {
+                    type: "picture-marker",
+                    url: "https://cdn.arcgis.com/sharing/rest/content/items/36359a4a8f3143b6bf44d5688e007900/resources/styles/thumbnails/Picnic%20shelter.png",
+                    width: "50px",
+                    height: "50px"
+                    },
+                },
+                {
+                    value: "Parking",
+                    symbol: {
+                    type: "picture-marker",
+                    url: "https://cdn.arcgis.com/sharing/rest/content/items/36359a4a8f3143b6bf44d5688e007900/resources/styles/thumbnails/Parking%20lot.png",
+                    width: "50px",
+                    height: "50px"
+                    },
+                }
+                ]
+            
+            };
+
 
             // Create the layer and set the renderer
             const activities = new FeatureLayer({
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Amenities_Activities/FeatureServer",
-                // renderer: activitiesRenderer,
+                renderer: activitiesRenderer,
                 popupTemplate:{
                     title:"{Label}",  
                     content: "<b>Accessible:</b> {Accessible}", 
@@ -187,7 +244,7 @@
                 renderer: trailsRenderer,
                 opacity: 0.75,
                 popupTemplate:{
-                    title:"{Label}",  
+                    title:"{Trail_Name}",  
                     content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b>{Miles} miles"+"<br><b>Bikes Allowed:</b> {Bike_Use}"+"<br><b>Cross Country Ski Allowed:</b> {XCountrySki_Use}"
                     +"<br><b>Snow Shoe Allowed:</b> {SnowShoe_Use}"+"<br><b>Paved:</b> {Paved}", 
                     overwriteActions: true
@@ -298,6 +355,13 @@
                     outFields: ["Label", "Accessible"], 
                     name: "Amenities", 
                     placeholder: "example: Campground",
+                }, 
+                {
+                    name: "ArcGIS World Geocoding Service",
+                    placeholder: "example: Grayling, MI",
+                    singleLineFieldName: "SingleLine",
+                    apiKey: "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCtSMLy6RPqSw4kVdzsBThhN8nICK_1mCJwa8lucTs48AdUfCJtFo68KbSaDBUiDMf-LWzMaK2YYnfUifnJZ75EIyK_JiaH-D3QuQdxjQ4xqpGYCoVbCxDgbhiI9vdUgebxmlgBeq85B5nVr07VkiU-KOKlKWT-3hcQSjuO0L3T94rpV3jgK2cx5Qryr-Q9xCEAT1_leRAI5yG",
+                    url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
                 }
 
             ];
