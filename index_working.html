@@ -77,6 +77,7 @@
 
             const accessibilityNote = new FeatureLayer({
                 url:"https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Accessibility_Note/FeatureServer",
+                title: "Accessibility Note",
                 popupTemplate:{
                     title:"Accessibility Note",  
                     content: "<b>Date Added:</b> {Date}"+ "<br><b>Note:</b> {Note}", 
@@ -125,6 +126,7 @@
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_TrailsInfo/FeatureServer",
                 renderer: trailheadsRenderer,
                 labelingInfo: [trailheadsLabels],
+                title: "Trail Information",
                 popupTemplate:{
                     title:"{Label}",  
                     content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b> {Trail_Length_mi} miles", 
@@ -203,6 +205,7 @@
             const activities = new FeatureLayer({
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Amenities_Activities/FeatureServer",
                 renderer: activitiesRenderer,
+                title: "Park Amenities",
                 popupTemplate:{
                     title:"{Label}",  
                     content: "<b>Accessible:</b> {Accessible}", 
@@ -242,7 +245,7 @@
             const trails = new FeatureLayer({
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_trails/FeatureServer",
                 renderer: trailsRenderer,
-                opacity: 0.75,
+                title: "Trails",
                 popupTemplate:{
                     title:"{Trail_Name}",  
                     content: "<b>Accessible:</b> {Accessible}"+ "<br><b>Length:</b>{Miles} miles"+"<br><b>Bikes Allowed:</b> {Bike_Use}"+"<br><b>Cross Country Ski Allowed:</b> {XCountrySki_Use}"
@@ -267,6 +270,7 @@
             const roads = new FeatureLayer({
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/DNR_PublicRds/FeatureServer",
                 renderer: roadsRenderer,
+                title: "Roads",
             });
 
             viewElement.map.add(roads, 0);
@@ -294,6 +298,7 @@
             const buildings = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Buildings/FeatureServer", 
                 renderer: buildingRenderer,
+                title: "Park Buildings",
                 popupTemplate:{
                     title:"{Label}",  
                     content: "<b>Accessible:</b> {Accessible}",
@@ -323,6 +328,7 @@
             const parkLayer = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HartwickPinesBoundary/FeatureServer", //URL to Hartwick Pines State Park layer
                 renderer: parkRenderer,
+                title: "Hartwick Pines State Park Boundary"
                
             });
             
