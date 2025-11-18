@@ -35,10 +35,10 @@
                 padding: 20px;
             }
             #optionsDiv {
-                background-color: dimgray;
-                color: white;
+                background-color: #C1A789; 
+                color: black;
                 padding: 10px;
-                width: 350px;
+                width: 300px;
             }
 
             .esri-popup .esri-popup-header .esri-title {
@@ -260,9 +260,7 @@
                     },
                 }
                 ]
-            
             };
-
 
             // Create the layer and set the renderer
             const activities = new FeatureLayer({
@@ -277,7 +275,6 @@
             });
 
             viewElement.map.add(activities, 1);
-
 
             // Define a unique value renderer and symbols
             const trailsRenderer = {
@@ -301,7 +298,6 @@
                     width: "2px", 
                     },
                 }]
-            
             };
 
             // Create the layer and set the renderer
@@ -355,7 +351,6 @@
                     }
                 }
             };
-
         
             // Create park buildings
             const buildings = new FeatureLayer({ 
@@ -386,7 +381,6 @@
                 }
             };
 
-        
             // Create park boundary layer from feature service 
             const parkLayer = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HartwickPinesBoundary/FeatureServer", //URL to Hartwick Pines State Park layer
@@ -398,23 +392,6 @@
             //adds park layer to map
             viewElement.map.add(parkLayer, 0);
 
-            // //creates slider
-            // const slider= new Slider({
-            //     container: "slider-container", 
-            //     layer: "trails",
-            //     field: "Miles",
-            //     min: 0.25, 
-            //     max: 10, 
-            //     values:[2]
-            // });
-
-            // slider.on(["thumb-change", "thumb-drag", "segment-drag"], (event) => {
-            //     layerView.filter = {
-            //         // generates the where clause for filtering features
-            //         where: slider.generateWhereClause(Miles)
-            //     };
-            // });
-
             // Create graphics layer and symbol to use for displaying the results of query
             const resultsLayer = new GraphicsLayer();
 
@@ -423,15 +400,15 @@
                 outFields: ["*"],
             });
 
-            const map = new Map({
-                basemap: "osm",
-                layers: [resultsLayer], // add graphics layer to the map
-            });
+            // const map = new Map({
+            //     basemap: "osm",
+            //     layers: [resultsLayer], // add graphics layer to the map
+            // });
 
-            const view= new MapView
+            // const view= new MapView
 
             // Call doQuery() each time the button is clicked
-            view.when(() => {
+            viewElement.map.when(() => {
                 view.ui.add("optionsDiv", "bottom-right");
                 document.getElementById("doBtn").addEventListener("click", doQuery);
             });
@@ -542,13 +519,13 @@
                     name: "Amenities", 
                     placeholder: "example: Campground",
                 }, 
-                {
-                    name: "ArcGIS World Geocoding Service",
-                    placeholder: "example: Grayling, MI",
-                    singleLineFieldName: "SingleLine",
-                    apiKey: "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCtSMLy6RPqSw4kVdzsBThhN8nICK_1mCJwa8lucTs48AdUfCJtFo68KbSaDBUiDMf-LWzMaK2YYnfUifnJZ75EIyK_JiaH-D3QuQdxjQ4xqpGYCoVbCxDgbhiI9vdUgebxmlgBeq85B5nVr07VkiU-KOKlKWT-3hcQSjuO0L3T94rpV3jgK2cx5Qryr-Q9xCEAT1_leRAI5yG",
-                    url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-                }
+                // {
+                //     name: "ArcGIS World Geocoding Service",
+                //     placeholder: "example: Grayling, MI",
+                //     singleLineFieldName: "SingleLine",
+                //     apiKey: "AAPTxy8BH1VEsoebNVZXo8HurOxCJM2SBFdn7xcvT1L38mvM8JqyGgY9I6ZreW_-CskCtSMLy6RPqSw4kVdzsBThhN8nICK_1mCJwa8lucTs48AdUfCJtFo68KbSaDBUiDMf-LWzMaK2YYnfUifnJZ75EIyK_JiaH-D3QuQdxjQ4xqpGYCoVbCxDgbhiI9vdUgebxmlgBeq85B5nVr07VkiU-KOKlKWT-3hcQSjuO0L3T94rpV3jgK2cx5Qryr-Q9xCEAT1_leRAI5yG",
+                //     url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+                // }
 
             ];
             
