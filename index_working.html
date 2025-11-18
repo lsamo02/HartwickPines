@@ -77,7 +77,7 @@
             >
                 <arcgis-layer-list></arcgis-layer-list>
             </arcgis-expand>
-            <arcgis-expand slot="bottom-left" expand-icon="filter">
+            <arcgis-expand slot="bottom-left" expand-icon="filter" autoCollapse= true>
                 <div id="controls">
                     <div id="description">Accessible Trail Distance</div>
                     <div id="outer-container">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </arcgis-expand>
-            <arcgis-expand slot="top-right" expand-icon="information" autoCollapse mode=" floating" collapse-tooltip>
+            <arcgis-expand slot="top-right" expand-icon="information" autoCollapse= true mode=" floating" collapse-tooltip>
                 <div id="information">
                     <b>Information</b> <br />
                     <div id="description">Hartwick Pines is located in Grayling, Michigan. It is one of 33 MI state parks to offer track chairs for improved accessibility. For more information and to reserve a track chair, please visit <a href="https://www.michigan.gov/recsearch/parks/hartwick" target="_top">Hartwick Pines State Park</a>.  </div>
@@ -97,15 +97,17 @@
         </arcgis-map>
 
         <script type="module">
-            const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer.js");
-            
-            const PictureMarkerSymbol = await $arcgis.import("@arcgis/core/symbols/PictureMarkerSymbol.js");
+
+            const[FeatureLayer, PictureMarkerSymbol, Slider]= 
+                await $arcgis.import([
+                    "@arcgis/core/layers/FeatureLayer.js",
+                    "@arcgis/core/symbols/PictureMarkerSymbol.js",
+                    "@arcgis/core/widgets/Slider.js"
+                ])
+
 
             const viewElement = document.querySelector("arcgis-map");
             await viewElement.viewOnReady();
-
-            const Slider = await $arcgis.import("@arcgis/core/widgets/Slider.js");
-
 
 
             const accessibilityNote = new FeatureLayer({
@@ -381,7 +383,7 @@
             slider.on(["thumb-change", "thumb-drag", "segment-drag"], (event) => {
                 layerView.filter = {
                     // generates the where clause for filtering features
-                    where: slider.generateWhereClause(field)
+                    where: slider.generateWhereClause(Miles)
                 };
             });
 
