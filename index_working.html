@@ -294,7 +294,7 @@
             };
 
         
-            // Create park bounary layer from feature service 
+            // Create park buildings
             const buildings = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hartwick_Buildings/FeatureServer", 
                 renderer: buildingRenderer,
@@ -307,7 +307,7 @@
                
             });
             
-            //adds park layer to map
+            //adds building layer to map
             viewElement.map.add(buildings, 0); 
 
             //renderer for Park Boundary
@@ -324,7 +324,7 @@
             };
 
         
-            // Create park bounary layer from feature service 
+            // Create park boundary layer from feature service 
             const parkLayer = new FeatureLayer({ 
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/HartwickPinesBoundary/FeatureServer", //URL to Hartwick Pines State Park layer
                 renderer: parkRenderer,
@@ -343,7 +343,7 @@
                 {
                     layer: buildings, 
                     searchFields: ["Label"], 
-                    displayField: "Accessible",
+                    displayField: "Label",
                     exactMatch: false, 
                     outFields: ["Label", "Accessible"], 
                     name: "Park Buildings", 
@@ -351,17 +351,17 @@
                 }, 
                 {
                     layer: trails, 
-                    searchFields: ["Label"], 
-                    displayField: "Accessible",
+                    searchFields: ["Trail_Name"], 
+                    displayField: "Trail_Name",
                     exactMatch: false, 
-                    outFields: ["Label", "Accessible"], 
+                    outFields: ["Trail_Name", "Accessible"], 
                     name: "Trails", 
                     placeholder: "example: Weary Leg Trail",
                 },
                 {
                     layer:activities, 
                     searchFields: ["Label"], 
-                    displayField: "Accessible",
+                    displayField: "Label",
                     exactMatch: false, 
                     outFields: ["Label", "Accessible"], 
                     name: "Amenities", 
