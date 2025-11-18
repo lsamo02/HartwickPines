@@ -29,6 +29,14 @@
             height: 100%;
             width: 100%;
             }
+            #controls {
+            overflow: hidden;
+            padding: 5px 10px 18px;
+            }
+            #outer-container {
+            padding: 5px;
+            width: 200px;
+            }
         </style>
 
     </head>
@@ -64,6 +72,14 @@
             >
                 <arcgis-layer-list></arcgis-layer-list>
             </arcgis-expand>
+            <arcgis-expand slot="bottom-left" expand-icon="filter">
+                <div id="controls">
+                    <div id="description">Accessible Trail Distance</div>
+                    <div id="outer-container">
+                        <div id="slider-container"></div>
+                    </div>
+                </div>
+            </arcgis-expand>
 
         </arcgis-map>
 
@@ -74,6 +90,9 @@
 
             const viewElement = document.querySelector("arcgis-map");
             await viewElement.viewOnReady();
+
+            const Slider = await $arcgis.import("@arcgis/core/widgets/Slider.js");
+
 
             const accessibilityNote = new FeatureLayer({
                 url:"https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Accessibility_Note/FeatureServer",
@@ -334,6 +353,24 @@
             
             //adds park layer to map
             viewElement.map.add(parkLayer, 0);
+
+            //creates slider
+            const slider= new Slider({
+                container: "slider-container", 
+                layer: "trails",
+                field: "Miles",
+                min: 0.25, 
+                max: 10, 
+                values:[2]
+            });
+
+            slider.on(["thumb-change", "thumb-drag", "segment-drag"], (event) => {
+                layerView.filter = {
+                    // generates the where clause for filtering features
+                    where: slider.generateWhereClause(field)
+                };
+            });
+
 
             // creates search constant 
             const search= document.querySelector("arcgis-search"); 
