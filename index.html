@@ -39,6 +39,7 @@
                 color: black;
                 padding: 10px;
                 width: 300px;
+                opacity: 80%;
             }
 
             .esri-popup .esri-popup-header .esri-title {
@@ -92,9 +93,9 @@
                 <arcgis-layer-list></arcgis-layer-list>
             </arcgis-expand>
 
-            <div class="esri-widget" id="optionsDiv" slot="bottom-left">
+            <!-- <div class="esri-widget" id="optionsDiv" slot="bottom-left">
                 <h2>Accessible Trails at Hartwick</h2>
-                <select class="esri-widget" id="attSelect">
+                <select class="esri-widget">
                     <option value="Miles">Length</option>
                 </select>
                 <select class="esri-widget" id="signSelect">
@@ -112,21 +113,19 @@
                 <br />
                 <button class="esri-widget" id="doBtn">Find Trail</button> <br />
                 <p><span id="printResults"></span></p>
-            </div>
+            </div> -->
 
         </arcgis-map>
-
 
     </head>
 
     <body>
-                <script type="module">
+        <script type="module">
 
-            const[FeatureLayer, PictureMarkerSymbol, Slider, Map, GraphicsLayer, query, Query, MapView]= 
+            const[FeatureLayer, PictureMarkerSymbol, Map, GraphicsLayer, query, Query, MapView]= 
                 await $arcgis.import([
                     "@arcgis/core/layers/FeatureLayer.js",
-                    "@arcgis/core/symbols/PictureMarkerSymbol.js",
-                    "@arcgis/core/widgets/Slider.js", 
+                    "@arcgis/core/symbols/PictureMarkerSymbol.js", 
                     "@arcgis/core/Map.js",
                     "@arcgis/core/layers/GraphicsLayer.js",
                     "@arcgis/core/rest/query.js",
@@ -315,6 +314,8 @@
 
             viewElement.map.add(trails, 0);
 
+
+
             // Add roads
             const roadsRenderer = {
                 type: "simple",
@@ -399,93 +400,6 @@
                 returnGeometry: true,
                 outFields: ["*"],
             });
-
-            // const map = new Map({
-            //     basemap: "osm",
-            //     layers: [resultsLayer], // add graphics layer to the map
-            // });
-
-            // const view= new MapView
-
-            // Call doQuery() each time the button is clicked
-            viewElement.map.when(() => {
-                view.ui.add("optionsDiv", "bottom-right");
-                document.getElementById("doBtn").addEventListener("click", doQuery);
-            });
-
-            const attributeName = document.getElementById("attSelect");
-            const expressionSign = document.getElementById("signSelect");
-            const value = document.getElementById("valSelect");
-
-            // Executes each time the button is clicked
-            function doQuery() {
-                // Clear the results from a previous query and close the popup if its open.
-                resultsLayer.removeAll();
-                if (view.popup.visible) {
-                    view.closePopup();
-                }
-
-                params.where= "Accessible = Yes"; 
-
-
-                // executes the query and calls getResults() once the promise is resolved
-                // promiseRejected() is called if the promise is rejected
-                query.executeQueryJSON(trails, params).then(getResults).catch(promiseRejected);
-            }
-
-            // Called each time the promise is resolved
-            function getResults(response) {
-            // Loop through each of the results and assign a symbol and PopupTemplate
-            // to each so they may be visualized on the map
-            if (response.features && response.features.length > 0) {
-            const trailResults = response.features.map((feature) => {
-                // Sets the symbol of each resulting feature 
-                feature.symbol = {
-                    type: "simple-marker", 
-                    style: "square",
-                    color: "blue",
-                    size: "8px",  // pixels
-                    outline: {  // autocasts as new SimpleLineSymbol()
-                        color: [ 255, 255, 0 ],
-                        width: 3  // points
-                    }
-
-                };
-
-                feature.popupTemplate = popupTemplate;
-                return feature;
-            });
-
-            resultsLayer.addMany(trailResults);
-
-            // animate to the results after they are added to the map
-            view
-                .goTo(trailResults)
-                .then(() => {
-                view.openPopup({
-                    features: trailResults,
-                    featureMenuOpen: true,
-                    updateLocationEnabled: true,
-                });
-                })
-                .catch((error) => {
-                if (error.name != "AbortError") {
-                    console.error(error);
-                }
-                });
-            }
-
-            // print the number of results returned to the user
-                document.getElementById("printResults").innerHTML =
-                response.features.length + " results found!";
-            }
-
-            // Called each time the promise is rejected
-            function promiseRejected(error) {
-                console.error("Promise rejected: ", error.message);
-            }
-
-
 
             // creates search constant 
             const search= document.querySelector("arcgis-search"); 
